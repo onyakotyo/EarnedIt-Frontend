@@ -13,8 +13,8 @@ const SendForm = () => {
                     <div>
                         <h4 className="py-3 " variant="dark">
                             Select below which country to send money to
-                    </h4>
-                </div>
+                        </h4>
+                    </div>
                 
 
                 <CountrySelector />

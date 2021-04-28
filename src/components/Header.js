@@ -1,7 +1,7 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Route } from 'react-router-dom'
-import {Navbar, Nav, Container, Dropdown  } from 'react-bootstrap'
+//import { Route } from 'react-router-dom'
+import {Navbar, Nav, Container } from 'react-bootstrap'
 
 const Header = () => {
     return (

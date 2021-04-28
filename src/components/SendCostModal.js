@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button  } from 'react-bootstrap'
+import { Modal, Button, ListGroup, Row, Col } from 'react-bootstrap'
 //import { LinkContainer } from 'react-router-bootstrap'
 
 
@@ -31,12 +31,36 @@ const SendCostModal = () => {
           <Modal.Title variant="dark" >Charges Summary</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-         <p>Send amount</p> GDP
-         <p>Exchange rate</p> 1GBP = 1.34USD
-         <p>Fee</p>GDP
-         <p>Total amount to Pay</p>GBP
+          <ListGroup variant='flush'>
+            <ListGroup.Item>
+              <Row className='py-2'>
+                  <Col>Send amount</Col>
+                  <Col>200 GDP</Col>
+              </Row>
+              <Row className='py-2'>
+                  <Col>Exchange rate</Col>
+                  <Col>1 GBP = 1.34 USD</Col>
+              
+              </Row>
+              <Row className='py-2'>
+                  <Col>Fee</Col>
+                  <Col>5.50 GBP</Col>
+              </Row>
+              
+              <Row className='py-2'>
+                  <Col>Total amount to pay</Col>
+                  <Col>205.50 GBP</Col>
+              </Row>
+              <Row className='py-2'>
+                  <Col>Receiver gets</Col>
+                  <Col>260 USD</Col>
+              </Row>
+            </ListGroup.Item>
 
-         <p>Receiver gets</p>USD
+          </ListGroup>
+        
+       
+        
         
          
         </Modal.Body>

@@ -1,6 +1,6 @@
 import React from 'react'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+//import Message from '../components/Message'
+//import Loader from '../components/Loader'
 import Process from '../components/Process'
 import HomeCarousel from '../components/HomeCarousel'
 import { Container, Badge } from 'react-bootstrap'

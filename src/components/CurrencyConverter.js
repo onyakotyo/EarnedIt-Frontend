@@ -3,8 +3,10 @@ import CurrencyDisplay from './CurrencyDisplay'
 import { Card, Button  } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-//const BASE_URL = 'https://api.exchangeratesapi.io/latest'
-const BASE_URL = 'http://api.currencylayer.com/live?access_key=243a6baba190aebcd28de3852c8aa39e'
+
+const BASE_URL = 'http://api.exchangeratesapi.io/v1/latest?access_key=05a30093e4bf0babea0056584359f583'
+//const BASE_URL = 'https://api.exchangeratesapi.io/latest?access_key=243a6baba190aebcd28de3852c8aa39e'
+//const BASE_URL = 'http://api.currencylayer.com/live?access_key=243a6baba190aebcd28de3852c8aa39e'
 
 console.log(BASE_URL)
 
@@ -29,19 +31,28 @@ const CurrencyConverter = () => {
     fetch(BASE_URL)
       .then(res => res.json())
       .then(data => {
-        const firstCurrency = Object.keys(data.quotes)[1]
-        setCurrencyOptions([data.base, ...Object.keys(data.quotes)])
+        const firstCurrency = Object.keys(data.rates)[0]
+        setCurrencyOptions([data.base, ...Object.keys(data.rates)])
         setFromCurrency(data.base)
         setToCurrency(firstCurrency)
-        setExchangeRate(data.quotes[firstCurrency])
+        setExchangeRate(data.rates[firstCurrency])
       })
   }, [])
 
   useEffect(() => {
+    if (
+      fromCurrency === toCurrency &&
+      fromCurrency !== undefined &&
+      toCurrency !== undefined
+    ) {
+      setExchangeRate(1)
+      return
+    }
+
     if (fromCurrency != null && toCurrency != null) {
       fetch(`${BASE_URL}&base=${fromCurrency}&symbols=${toCurrency}`)
         .then(res => res.json())
-        .then(data => setExchangeRate(data.quotes[toCurrency]))
+        .then(data => setExchangeRate(data.rates[toCurrency]))
     }
   }, [fromCurrency, toCurrency])
 

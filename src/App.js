@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen'
 import SendForm from './screens/SendForm'
 import SendCostModal from './components/SendCostModal'
 import CollectionMethod from './screens/CollectionMethod'
+import RecepientScreen from './screens/RecepientScreen'
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path='/send' component={SendForm} />
             <Route path='/send/sendcost' component={SendCostModal} />
             <Route path='/collectionmethod' component={CollectionMethod} />
+            <Route path='/recepient' component={RecepientScreen} />
           </Container>
         </main>
       <Footer />

@@ -14,7 +14,9 @@ const CurrencyDisplay = (props) => {
       <input className='py-2 m-2' type="number" value={amount} onChange={onChangeAmount} />
       <select value={selectedCurrency} onChange={onChangeCurrency} className='py-2'>
         {currencyOptions.map(option => (
+         
           <option key={option} value={option}>{option}</option>
+          
         ))}
       </select>
     </div>

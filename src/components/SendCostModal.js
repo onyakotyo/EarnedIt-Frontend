@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux' 
 import { Modal, Button, ListGroup, Row, Col } from 'react-bootstrap'
 //import { LinkContainer } from 'react-router-bootstrap'
 
 
-const SendCostModal = () => {
+const SendCostModal = (props) => {
+
+  const order = useSelector((state) => state.order)
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -12,6 +16,24 @@ const SendCostModal = () => {
    useEffect(() => {
          handleShow()
       }, [])
+
+
+
+   //   Calculate prices
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2)
+  }
+
+
+    order.shippingAmount = addDecimals(order.sendAmount.fromAmount * 0.10, 0)
+
+  order.totalAmount = (
+    Number(order.sendAmount.fromAmount) +
+    Number(order.shippingAmount )
+    ).toFixed(2)
+
+
+    
 
   return (
     <>
@@ -35,25 +57,27 @@ const SendCostModal = () => {
             <ListGroup.Item>
               <Row className='py-2'>
                   <Col>Send amount</Col>
-                  <Col>200 GDP</Col>
+                  <Col>€{order.sendAmount.fromAmount}</Col>
               </Row>
-              <Row className='py-2'>
-                  <Col>Exchange rate</Col>
-                  <Col>1 GBP = 1.34 USD</Col>
               
+             
+              <Row>
+                  <Col>Exchange Rate</Col>
+                  <Col> € 1 = $ {order.sendAmount.exchangeRate} </Col>
               </Row>
+
               <Row className='py-2'>
                   <Col>Fee</Col>
-                  <Col>5.50 GBP</Col>
+                  <Col>${order.shippingAmount}</Col>
               </Row>
               
               <Row className='py-2'>
                   <Col>Total amount to pay</Col>
-                  <Col>205.50 GBP</Col>
+                  <Col>${order.totalAmount}</Col>
               </Row>
               <Row className='py-2'>
                   <Col>Receiver gets</Col>
-                  <Col>260 USD</Col>
+                  <Col>$ {order.sendAmount.toAmount}</Col>
               </Row>
             </ListGroup.Item>
 

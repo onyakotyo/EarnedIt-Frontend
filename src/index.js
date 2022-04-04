@@ -4,11 +4,25 @@ import './index.css';
 import './bootstrap.min.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider }  from 'react-redux'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import store from './store'
+
+
+
+
+const stripePromise = loadStripe('pk_test_FQ6MNjx0p8vsvmT2vdVePuJ100HQ1ZkxvE')
+
+console.log('Promise',stripePromise  )
 
 ReactDOM.render(
-  <div>
-    <App />
-  </div>,
+  <Provider store={store}>
+    <Elements stripe={stripePromise}>
+       <App />
+    </Elements>
+   
+  </Provider>,
   document.getElementById('root')
 );
 

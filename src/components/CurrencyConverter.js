@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import CurrencyDisplay from './CurrencyDisplay'
 import { Card, Button  } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useDispatch } from 'react-redux'
+//import SendCostModal from './SendCostModal';
+import { saveSendAmount} from '../actions/orderActions'
 
 
 const BASE_URL = 'http://api.exchangeratesapi.io/v1/latest?access_key=05a30093e4bf0babea0056584359f583'
@@ -11,12 +14,28 @@ const BASE_URL = 'http://api.exchangeratesapi.io/v1/latest?access_key=05a30093e4
 console.log(BASE_URL)
 
 const CurrencyConverter = () => {
+
+
   const [currencyOptions, setCurrencyOptions] = useState([])
   const [fromCurrency, setFromCurrency] = useState()
   const [toCurrency, setToCurrency] = useState()
   const [exchangeRate, setExchangeRate] = useState()
   const [amount, setAmount] = useState(1)
   const [amountInFromCurrency, setAmountInFromCurrency] = useState(true)
+
+  // const order = useSelector((state) => state.order)
+  // const { sendCountry} = order
+
+  // console.log('Country', sendCountry)
+
+    
+
+  // console.log('CurrencyC', sendCountry.value)
+
+  //  const sendAmount = useSelector((state) => state.orderAmount)
+  
+
+  // console.log('ORDERAmount', sendAmount)
 
   let toAmount, fromAmount
   if (amountInFromCurrency) {
@@ -31,6 +50,7 @@ const CurrencyConverter = () => {
     fetch(BASE_URL)
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         const firstCurrency = Object.keys(data.rates)[0]
         setCurrencyOptions([data.base, ...Object.keys(data.rates)])
         setFromCurrency(data.base)
@@ -38,6 +58,8 @@ const CurrencyConverter = () => {
         setExchangeRate(data.rates[firstCurrency])
       })
   }, [])
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (
@@ -54,7 +76,10 @@ const CurrencyConverter = () => {
         .then(res => res.json())
         .then(data => setExchangeRate(data.rates[toCurrency]))
     }
-  }, [fromCurrency, toCurrency])
+
+        dispatch(saveSendAmount({fromAmount, toAmount, exchangeRate}))
+    
+  }, [dispatch, fromCurrency, toCurrency, fromAmount, toAmount, exchangeRate])
 
   function handleFromAmountChange(e) {
     setAmount(e.target.value)
@@ -65,6 +90,8 @@ const CurrencyConverter = () => {
     setAmount(e.target.value)
     setAmountInFromCurrency(false)
   }
+
+  
 
   return (
     <div className="text-center py-5">
@@ -83,7 +110,11 @@ const CurrencyConverter = () => {
 
                     <h5>Receiver gets</h5>
 
-                    <CurrencyDisplay class
+                    <p> 1 {`${fromCurrency}`} =  {`${exchangeRate}`}  {toCurrency}</p>
+
+                    {/* <SendCostModal fromCurrency={fromCurrency} exchangeRate={exchangeRate} toCurrency={toCurrency} /> */}
+
+                    <CurrencyDisplay 
                         currencyOptions={currencyOptions}
                         selectedCurrency={toCurrency}
                         onChangeCurrency={e => setToCurrency(e.target.value)}
@@ -91,7 +122,9 @@ const CurrencyConverter = () => {
                         amount={toAmount}
                     />
                     <LinkContainer className="py-2 mt-3" to='/send/sendcost'>
+                      
                         <Button variant="dark"> Done</Button>
+                        
                     </LinkContainer>
                       
             </Card.Body>

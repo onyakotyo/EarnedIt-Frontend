@@ -1,22 +1,78 @@
-import React from 'react'
-import { Container, Form, Card, Button } from 'react-bootstrap'
+import React, {useEffect, useState} from 'react'
+import { Form, Card, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import FormContainer from '../components/FormContainer'
+import { saveCollectionMethod } from '../actions/orderActions'
 
-const CollectionMethod = () => {
+const CollectionMethod = ({history, location}) => {
+
+
+    const [ collectionMethod, setCollectionMethod ] = useState('')
+
+    const dispatch = useDispatch()
+
+    console.log('FRONT COLLECTION', collectionMethod)
+
+
+    const userLogin = useSelector(state => state.userLogin)
+
+    
+
+
+    const { loading, error, userInfo} = userLogin
+
+    const redirect = location.search ? location.search.split('=')[1] : '/'
+
+    useEffect(() => {
+        if(!userInfo) {
+            history.push(redirect)
+        }
+    }, [history, userInfo, redirect])
+
+    
+
+    const submitHandler = (e) => {
+        console.log('hi hi')
+        e.preventDefault()
+        dispatch(
+            saveCollectionMethod({
+                collectionMethod
+            })
+        )
+    }
+
+  
+    
+
     return (
         <>
-            <Container>
-                <Form className='py-3'>
-                    <Form.Group controlId="collectionMethod" className='text-center py-3'>
-                                <Form.Label className='py-3'>Choose Collection Method</Form.Label>
-                                    <Form.Control as="select">
-                                        <option>Cash Pickup</option>
-                                        <option> Bank Deposit</option>
-                                        <option>Mobile Money Transfer</option>
-                                        <option>Airtime</option>
+            <FormContainer>
+                {error && <Message variant='danger'>{error}</Message>}
+               {loading && <Loader />}
+                <Form className='py-3'  onSubmit={submitHandler} >
+                    <Form.Group controlId="collectMethod" className='text-center py-3'>
+                                <Form.Label className='py-3' as='h5'>Choose Money Collection Method</Form.Label>
+                                    <Form.Control 
+                                        as="select"
+                                        value={collectionMethod}
+                                        onChange={(e) => setCollectionMethod(e.target.value)}
+                                    >
+                                        <option value='cashPickup'>Cash Pickup</option>
+                                        <option value='bankDeposit'> Bank Deposit</option>
+                                        <option value='mobileTransfer'>Mobile Money Transfer</option>
+                                        <option value='airTime'>Airtime</option>
                                     </Form.Control>  
                             </Form.Group>
+                    <Button
                     
+                        type='submit'
+                        variant='dark'
+                      >
+                        Continue
+                      </Button>
                 </Form>
 
                 <Card >
@@ -29,7 +85,7 @@ const CollectionMethod = () => {
                         </Card.Text>
                           {/* <Card.Text> See Cash Pickup locations</Card.Text> */}
                         {/* <Card.Link href="#">See Cash Pickup locations</Card.Link> */}
-                        <LinkContainer to='/locations'>
+                        <LinkContainer to='/collectionmethod/pickuplocations'>
                             <Button variant="dark">See Cash Pickup locations</Button>
                         </LinkContainer>
                         
@@ -45,7 +101,7 @@ const CollectionMethod = () => {
                         
                    
                   
-            </Container>
+            </FormContainer>
      
         </>
     )

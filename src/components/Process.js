@@ -37,7 +37,7 @@ const Process = () => {
                 <Card className="text-center">
                     <Card.Header as="h4">Receiver Collects Money</Card.Header>
                 
-                    <i class="fas fa-hand-holding-usd fa-lg py-3" ></i>
+                    <i className="fas fa-hand-holding-usd fa-lg py-3" ></i>
                     <Card.Body>
                     <Card.Title></Card.Title>
                     <Card.Text>
@@ -48,7 +48,7 @@ const Process = () => {
                     </Card.Body>
                     <Card.Footer>
                     <LinkContainer to='/send'>
-                        <Button variant="dark">Send Money</Button>
+                        <Button variant="dark">Send Money Now</Button>
                     </LinkContainer>
                     
                     </Card.Footer>
